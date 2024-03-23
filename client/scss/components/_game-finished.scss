@@ -14,19 +14,16 @@
     margin-top: 0px;
   }
   
-  button {
-    background-color: transparent;
-    color: currentColor;
-    border: currentColor 1px solid;
-    padding: 10px;
-    font-size: 1.5em;
-    font-family: 'Times New Roman', Times, serif;
-  }
-  
   .hidden {
     display: none;
   }
   
   .visible {
     display: block;
+  }
+
+  .play-again-btn {
+    @extend %button;
+    padding: 10px;
+    font-size: 1.5em;
   }

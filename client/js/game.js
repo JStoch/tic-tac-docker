@@ -1,17 +1,11 @@
 const tiles = document.querySelectorAll(".tile");
-//TODO remove
-const PLAYER_X = "X";
-const PLAYER_O = "O";
-let turn = PLAYER_X;
 
+//TODO get from backend and change const/let
 const PLAYER_SYMBOL = "X";
 const OPONNENT_SYMBOL = "O";
-
-const GAME_STATE_WON = 1;
-const GAME_STATE_LOST = 2;
-
 let isPlayerTurn = true;
 let playerName = 'Stefan';
+let oponnentName = 'Krystyna';
 
 const boardState = Array(tiles.length);
 boardState.fill(null);
@@ -21,6 +15,7 @@ const strike = document.getElementById("strike");
 const gameOverArea = document.getElementById("game-over-area");
 const gameOverText = document.getElementById("game-over-text");
 const playAgain = document.getElementById("play-again");
+const turnIndicator = document.getElementById("turn-indicator");
 playAgain.addEventListener("click", startNewGame);
 
 tiles.forEach((tile) => tile.addEventListener("click", tileClick));
@@ -39,8 +34,6 @@ function removeHoverText(tile) {
   tile.classList.remove(`${PLAYER_SYMBOL.toLowerCase()}-hover`);
 }
 
-setHoverText();
-
 function tileClick(event) {
   if (gameOverArea.classList.contains("visible")) {
     return;
@@ -53,6 +46,7 @@ function tileClick(event) {
   }
 
   //TODO remove else - make early return from isPlayerTurn
+  //TODO remove isPlayerTurn change
   if (isPlayerTurn) {
     tile.innerText = PLAYER_SYMBOL;
     boardState[tileNumber] = PLAYER_SYMBOL;
@@ -64,14 +58,19 @@ function tileClick(event) {
   }
 
   removeHoverText(tile);
+  indicateTurn();
   checkWinner();
 }
 
 function indicateTurn() {
-  
+  let currentPlayer = '';
   if (isPlayerTurn) {
-    
+    currentPlayer = playerName;
+  } else {
+    currentPlayer = oponnentName;
   }
+
+  turnIndicator.innerText =`It's ${currentPlayer}'s turn`;
 }
 
 function checkWinner() {
@@ -119,7 +118,9 @@ function startNewGame() {
   gameOverArea.className = "hidden";
   boardState.fill(null);
   tiles.forEach((tile) => (tile.innerText = ""));
+  //TODO change
   isPlayerTurn = true;
+  indicateTurn();
   setHoverText();
 }
 
@@ -130,9 +131,11 @@ const winningCombinations = [
   { combo: [6, 7, 8], strikeClass: "strike-row-3" },
   //columns
   { combo: [0, 3, 6], strikeClass: "strike-column-1" },
-  { combo: [1, 6, 7], strikeClass: "strike-column-2" },
+  { combo: [1, 4, 7], strikeClass: "strike-column-2" },
   { combo: [2, 5, 8], strikeClass: "strike-column-3" },
   //diagonals
   { combo: [0, 4, 8], strikeClass: "strike-diagonal-1" },
   { combo: [2, 4, 6], strikeClass: "strike-diagonal-2" },
 ];
+
+startNewGame();

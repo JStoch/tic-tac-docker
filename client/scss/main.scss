@@ -1,6 +1,8 @@
 @import "values/colors";
-@import "components/_game-finished";
-@import "components/_game-grid";
+@import "components/game-finished";
+@import "components/game-grid";
+@import "components/button";
+@import "components/start_button";
 
 body {
     display: flex;

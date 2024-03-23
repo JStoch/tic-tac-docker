@@ -13,21 +13,17 @@
   margin-top: 0px;
 }
 
-button {
-  background-color: transparent;
-  color: currentColor;
-  border: currentColor 1px solid;
-  padding: 10px;
-  font-size: 1.5em;
-  font-family: "Times New Roman", Times, serif;
-}
-
 .hidden {
   display: none;
 }
 
 .visible {
   display: block;
+}
+
+.play-again-btn {
+  padding: 10px;
+  font-size: 1.5em;
 }
 
 #board {
@@ -117,6 +113,19 @@ button {
 .o-hover:hover::after {
   content: "O";
   opacity: 0.4;
+}
+
+.start-btn, .play-again-btn {
+  background-color: transparent;
+  color: #bc4749;
+  border: currentColor 1px solid;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.start-btn {
+  font-size: medium;
+  padding: 1em;
+  margin-top: 30px;
 }
 
 body {
