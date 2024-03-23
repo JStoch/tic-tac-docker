@@ -1,7 +1,17 @@
 const tiles = document.querySelectorAll(".tile");
+//TODO remove
 const PLAYER_X = "X";
 const PLAYER_O = "O";
 let turn = PLAYER_X;
+
+const PLAYER_SYMBOL = "X";
+const OPONNENT_SYMBOL = "O";
+
+const GAME_STATE_WON = 1;
+const GAME_STATE_LOST = 2;
+
+let isPlayerTurn = true;
+let playerName = 'Stefan';
 
 const boardState = Array(tiles.length);
 boardState.fill(null);
@@ -13,26 +23,20 @@ const gameOverText = document.getElementById("game-over-text");
 const playAgain = document.getElementById("play-again");
 playAgain.addEventListener("click", startNewGame);
 
-//Sounds
-const gameOverSound = new Audio("sounds/game_over.wav");
-const clickSound = new Audio("sounds/click.wav");
-
 tiles.forEach((tile) => tile.addEventListener("click", tileClick));
 
 function setHoverText() {
   //remove all hover text
-  tiles.forEach((tile) => {
-    tile.classList.remove("x-hover");
-    tile.classList.remove("o-hover");
-  });
-
-  const hoverClass = `${turn.toLowerCase()}-hover`;
-
+  const hoverClass = `${PLAYER_SYMBOL.toLowerCase()}-hover`;
   tiles.forEach((tile) => {
     if (tile.innerText == "") {
       tile.classList.add(hoverClass);
     }
   });
+}
+
+function removeHoverText(tile) {
+  tile.classList.remove(`${PLAYER_SYMBOL.toLowerCase()}-hover`);
 }
 
 setHoverText();
@@ -48,19 +52,26 @@ function tileClick(event) {
     return;
   }
 
-  if (turn === PLAYER_X) {
-    tile.innerText = PLAYER_X;
-    boardState[tileNumber - 1] = PLAYER_X;
-    turn = PLAYER_O;
+  //TODO remove else - make early return from isPlayerTurn
+  if (isPlayerTurn) {
+    tile.innerText = PLAYER_SYMBOL;
+    boardState[tileNumber] = PLAYER_SYMBOL;
+    isPlayerTurn = false;
   } else {
-    tile.innerText = PLAYER_O;
-    boardState[tileNumber - 1] = PLAYER_O;
-    turn = PLAYER_X;
+    tile.innerText = OPONNENT_SYMBOL;
+    boardState[tileNumber] = OPONNENT_SYMBOL;
+    isPlayerTurn = true;
   }
 
-  clickSound.play();
-  setHoverText();
+  removeHoverText(tile);
   checkWinner();
+}
+
+function indicateTurn() {
+  
+  if (isPlayerTurn) {
+    
+  }
 }
 
 function checkWinner() {
@@ -68,9 +79,9 @@ function checkWinner() {
   for (const winningCombination of winningCombinations) {
     //Object Destructuring
     const { combo, strikeClass } = winningCombination;
-    const tileValue1 = boardState[combo[0] - 1];
-    const tileValue2 = boardState[combo[1] - 1];
-    const tileValue3 = boardState[combo[2] - 1];
+    const tileValue1 = boardState[combo[0]];
+    const tileValue2 = boardState[combo[1]];
+    const tileValue3 = boardState[combo[2]];
 
     if (
       tileValue1 != null &&
@@ -90,14 +101,17 @@ function checkWinner() {
   }
 }
 
-function gameOverScreen(winnerText) {
+function gameOverScreen(winningSymbol) {
   let text = "Draw!";
-  if (winnerText != null) {
-    text = `Winner is ${winnerText}!`;
+  if (winningSymbol == PLAYER_SYMBOL) {
+    text = `You won!`;
+  } else if (winningSymbol == OPONNENT_SYMBOL) {
+    text = 'You lost.'
+  } else {
+    text = "It's a draw!"
   }
   gameOverArea.className = "visible";
   gameOverText.innerText = text;
-  gameOverSound.play();
 }
 
 function startNewGame() {
@@ -105,20 +119,20 @@ function startNewGame() {
   gameOverArea.className = "hidden";
   boardState.fill(null);
   tiles.forEach((tile) => (tile.innerText = ""));
-  turn = PLAYER_X;
+  isPlayerTurn = true;
   setHoverText();
 }
 
 const winningCombinations = [
   //rows
-  { combo: [1, 2, 3], strikeClass: "strike-row-1" },
-  { combo: [4, 5, 6], strikeClass: "strike-row-2" },
-  { combo: [7, 8, 9], strikeClass: "strike-row-3" },
+  { combo: [0, 1, 2], strikeClass: "strike-row-1" },
+  { combo: [3, 4, 5], strikeClass: "strike-row-2" },
+  { combo: [6, 7, 8], strikeClass: "strike-row-3" },
   //columns
-  { combo: [1, 4, 7], strikeClass: "strike-column-1" },
-  { combo: [2, 5, 8], strikeClass: "strike-column-2" },
-  { combo: [3, 6, 9], strikeClass: "strike-column-3" },
+  { combo: [0, 3, 6], strikeClass: "strike-column-1" },
+  { combo: [1, 6, 7], strikeClass: "strike-column-2" },
+  { combo: [2, 5, 8], strikeClass: "strike-column-3" },
   //diagonals
-  { combo: [1, 5, 9], strikeClass: "strike-diagonal-1" },
-  { combo: [3, 5, 7], strikeClass: "strike-diagonal-2" },
+  { combo: [0, 4, 8], strikeClass: "strike-diagonal-1" },
+  { combo: [2, 4, 6], strikeClass: "strike-diagonal-2" },
 ];

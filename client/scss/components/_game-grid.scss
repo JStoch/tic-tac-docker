@@ -1,0 +1,99 @@
+
+  #board {
+    display: grid;
+    grid-template-columns: 100px 100px 100px;
+    grid-template-rows: 100px 100px 100px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .tile {
+    color: $green1;
+    font-size: 2em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  $border-params: 0.2em solid $green3;
+
+  .right-border {
+    border-right: $border-params;
+  }
+  
+  .bottom-border {
+    border-bottom: $border-params;
+  }
+  
+  .strike {
+    position: absolute;
+    background-color: $red;
+  }
+
+  %strike-row {
+    width: 100%;
+    height: 4px;
+  }
+  
+  .strike-row-1 {
+    @extend %strike-row;
+    top: 15%;
+  }
+
+  .strike-row-2 {
+    @extend %strike-row;
+    top: 48%;
+  }
+
+  .strike-row-3 {
+    @extend %strike-row;
+    top: 83%;
+  }
+
+  %strike-column {
+    height: 100%;
+    width: 4px;
+  }
+
+  .strike-column-1 {
+    @extend %strike-column;
+    left: 15%;
+  }
+
+  .strike-column-2 {
+    @extend %strike-column;
+    left: 48%;
+  }
+
+  .strike-column-3 {
+    @extend %strike-column;
+    left: 83%;
+  }
+
+  %strike-diagonal {
+    width: 90%;
+    height: 4px;
+    top: 50%;
+    left: 5%;
+  }
+
+  .strike-diagonal-1 {
+    @extend %strike-diagonal;
+    transform: skewY(45deg);
+  }
+
+  .strike-diagonal-2 {
+    @extend %strike-diagonal;
+    transform: skewY(-45deg);
+  }
+   
+  .x-hover:hover::after {
+    content: "X";
+    opacity: 0.4;
+  }
+  
+  .o-hover:hover::after {
+    content: "O";
+    opacity: 0.4;
+  }
