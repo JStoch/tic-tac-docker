@@ -1,0 +1,29 @@
+
+#game-over-area {
+    text-align: center;
+    border: $red 8px solid;
+    padding: 50px;
+    width: 50%;
+    margin-top: 50px;
+    color: $red;
+  }
+  
+  .dialog-title {
+    color: currentColor;
+    font-size: 2em;
+    margin-top: 0px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .visible {
+    display: block;
+  }
+
+  .play-again-btn {
+    @extend %button;
+    padding: 10px;
+    font-size: 1.5em;
+  }

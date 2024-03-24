@@ -1,0 +1,140 @@
+#game-over-area {
+  text-align: center;
+  border: #bc4749 8px solid;
+  padding: 50px;
+  width: 50%;
+  margin-top: 50px;
+  color: #bc4749;
+}
+
+.dialog-title {
+  color: currentColor;
+  font-size: 2em;
+  margin-top: 0px;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.play-again-btn {
+  padding: 10px;
+  font-size: 1.5em;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tile {
+  color: #a7c957;
+  font-size: 2em;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-border {
+  border-right: 0.2em solid #386641;
+}
+
+.bottom-border {
+  border-bottom: 0.2em solid #386641;
+}
+
+.strike {
+  position: absolute;
+  background-color: #bc4749;
+}
+
+.strike-row-3, .strike-row-2, .strike-row-1 {
+  width: 100%;
+  height: 4px;
+}
+
+.strike-row-1 {
+  top: 15%;
+}
+
+.strike-row-2 {
+  top: 48%;
+}
+
+.strike-row-3 {
+  top: 83%;
+}
+
+.strike-column-3, .strike-column-2, .strike-column-1 {
+  height: 100%;
+  width: 4px;
+}
+
+.strike-column-1 {
+  left: 15%;
+}
+
+.strike-column-2 {
+  left: 48%;
+}
+
+.strike-column-3 {
+  left: 83%;
+}
+
+.strike-diagonal-2, .strike-diagonal-1 {
+  width: 90%;
+  height: 4px;
+  top: 50%;
+  left: 5%;
+}
+
+.strike-diagonal-1 {
+  transform: skewY(45deg);
+}
+
+.strike-diagonal-2 {
+  transform: skewY(-45deg);
+}
+
+.x-hover:hover::after {
+  content: "X";
+  opacity: 0.4;
+}
+
+.o-hover:hover::after {
+  content: "O";
+  opacity: 0.4;
+}
+
+.start-btn, .play-again-btn {
+  background-color: transparent;
+  color: #bc4749;
+  border: currentColor 1px solid;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.start-btn {
+  font-size: medium;
+  padding: 1em;
+  margin-top: 30px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #eee8db;
+  color: #6a994e;
+  font-family: "Times New Roman", Times, serif;
+}
+
+/*# sourceMappingURL=main.css.map */

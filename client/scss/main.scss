@@ -1,0 +1,14 @@
+@import "values/colors";
+@import "components/game-finished";
+@import "components/game-grid";
+@import "components/button";
+@import "components/start_button";
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $background;
+    color: $green2;
+    font-family: 'Times New Roman', Times, serif;
+  }
