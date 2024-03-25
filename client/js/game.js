@@ -7,7 +7,7 @@ const PLAYER_SYMBOL = "X";
 const OPONNENT_SYMBOL = "O";
 const guid = crypto.randomUUID().toString();
 let isPlayerTurn = false;
-let playerName = 'Stefan';
+let playerName = sessionStorage.username;
 let oponnentName = '';
 let gameGuid = '';
 
@@ -30,7 +30,7 @@ connection.on("Move", function (move) {
 
 connection.start().then(function() {
   turnIndicator.innerText =`Waiting for an oponnent...`;
-  connection.invoke("RequestConnection", guid, playerName);
+  connection.invoke("RequestNewGame", guid, playerName);
 });
 
 function sendMove(move) {

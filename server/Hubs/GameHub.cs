@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 using server.DataContext;
 using server.Models;
-//TODO what if user looses connection?
-//TODO what if msg doesn't go through?
-//TODO msg about the need to reconnect
 //TODO end game
 namespace server.Hubs
 {
@@ -11,9 +8,8 @@ namespace server.Hubs
     {
         private readonly GameDataContext gameData = gameDataContext;
 
-        public async Task RequestConnection(string guid, string userName)
+        public async Task RequestNewGame(string guid, string userName)
         {
-            Console.WriteLine("Connection requested");
             var player = new PlayerModel(guid, userName, Context.ConnectionId);
             var oponnent = gameData.FindAvailablePlayer();
             if (oponnent != null) {
@@ -27,12 +23,9 @@ namespace server.Hubs
 
         public async Task Move(string gameGuid, string playerGuid, string move)
         {
-            Console.WriteLine($"Move recieved");
             var game = gameData.GetGame(gameGuid);
             if (game != null && game.TryToMove(playerGuid)) {
-                Console.WriteLine($"About to send move {move}");
                 await Clients.Client(game.GetActivePlayer().Connection).SendAsync("Move", move);
-                Console.WriteLine("Move sent");
             }
         }
     }

@@ -3,7 +3,7 @@ using server.Models;
 namespace server.DataContext
 {
     public class GameDataContext {
-        public Queue<PlayerModel> WaitingPool {get; set;}
+        public Queue<PlayerModel> WaitingPool { get; set; }
         public Dictionary<string, GameModel> ActiveGames { get; set;}
 
         public GameDataContext() {
