@@ -1,4 +1,4 @@
-using server.DataContext;
+using server.Services;
 using server.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<GameDataContext>();
+builder.Services.AddSingleton<GameService>();
 
 var app = builder.Build();
 

@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.SignalR;
-using server.DataContext;
+using server.Services;
 using server.Models;
 //TODO end game
 namespace server.Hubs
 {
-    public class GameHub(GameDataContext gameDataContext) : Hub
+    public class GameHub(GameService gameDataContext) : Hub
     {
-        private readonly GameDataContext gameData = gameDataContext;
+        private readonly GameService gameData = gameDataContext;
 
         public async Task RequestNewGame(string guid, string userName)
         {
@@ -27,6 +27,10 @@ namespace server.Hubs
             if (game != null && game.TryToMove(playerGuid)) {
                 await Clients.Client(game.GetActivePlayer().Connection).SendAsync("Move", move);
             }
+        }
+
+        public void EndGame(string gameGuid) {
+            gameData.FinalizeGame(gameGuid);
         }
     }
 }

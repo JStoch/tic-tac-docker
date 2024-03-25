@@ -1,12 +1,12 @@
 using server.Models;
 
-namespace server.DataContext
+namespace server.Services
 {
-    public class GameDataContext {
+    public class GameService {
         public Queue<PlayerModel> WaitingPool { get; set; }
         public Dictionary<string, GameModel> ActiveGames { get; set;}
 
-        public GameDataContext() {
+        public GameService() {
             WaitingPool = new Queue<PlayerModel>();
             ActiveGames = [];
         }
@@ -35,6 +35,10 @@ namespace server.DataContext
             } else {
                 return null;
             }
+        }
+
+        public void FinalizeGame(string gameGuid) {
+            ActiveGames.Remove(gameGuid);
         }
     }
 }

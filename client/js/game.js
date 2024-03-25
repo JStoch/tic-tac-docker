@@ -7,6 +7,7 @@ const PLAYER_SYMBOL = "X";
 const OPONNENT_SYMBOL = "O";
 const guid = crypto.randomUUID().toString();
 let isPlayerTurn = false;
+let isGameOver = false;
 let playerName = sessionStorage.username;
 let oponnentName = '';
 let gameGuid = '';
@@ -29,12 +30,22 @@ connection.on("Move", function (move) {
 });
 
 connection.start().then(function() {
+  requestNewGame();
+});
+
+function requestNewGame() {
+  gameGuid = '';
+  oponnentName = '';
   turnIndicator.innerText =`Waiting for an oponnent...`;
   connection.invoke("RequestNewGame", guid, playerName);
-});
+}
 
 function sendMove(move) {
   connection.invoke('Move', gameGuid, guid, move.toString());
+}
+
+function sendEndGame() {
+  connection.invoke('EndGame', gameGuid);
 }
 
 const boardState = Array(tiles.length);
@@ -85,6 +96,9 @@ function tileClick(event) {
 
   makeMove(tileNumber, PLAYER_SYMBOL);
   sendMove(tile.dataset.index);
+  if (isGameOver) {
+    sendEndGame();
+  }
 }
 
 function indicateTurn() {
@@ -134,19 +148,20 @@ function gameOverScreen(winningSymbol) {
   } else {
     text = "It's a draw!"
   }
+  isGameOver = true;
   gameOverArea.className = "visible";
   gameOverText.innerText = text;
 }
 
 function startNewGame() {
+  isGameOver = false;
   strike.className = "strike";
   gameOverArea.className = "hidden";
   boardState.fill(null);
   tiles.forEach((tile) => (tile.innerText = ""));
-  //TODO change
-  isPlayerTurn = true;
-  indicateTurn();
+  isPlayerTurn = false;
   setHoverText();
+  requestNewGame();
 }
 
 const winningCombinations = [
