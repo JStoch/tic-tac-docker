@@ -1,7 +1,12 @@
+using server.DataContext;
+using server.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<GameDataContext>();
 
 var app = builder.Build();
 
@@ -23,5 +28,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapHub<GameHub>("/game");
 app.Run();
