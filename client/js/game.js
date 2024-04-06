@@ -2,7 +2,6 @@
 
 const tiles = document.querySelectorAll(".tile");
 
-//TODO change const/let and names
 const PLAYER_SYMBOL = "X";
 const OPONNENT_SYMBOL = "O";
 const guid = crypto.randomUUID().toString();
@@ -12,7 +11,7 @@ let playerName = sessionStorage.username;
 let oponnentName = '';
 let gameGuid = '';
 
-var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:5269/game", {
+var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:8080/game", {
   skipNegotiation: true,
   transport: signalR.HttpTransportType.WebSockets
 }).build();

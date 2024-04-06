@@ -1,0 +1,16 @@
+version: '2.0'
+services:
+  frontend:
+    image: clientapp
+    build:
+      context: client
+      dockerfile: Dockerfile
+    ports:
+      - 8081:3000
+  backend:
+    image: server
+    build:
+      context: server
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
