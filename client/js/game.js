@@ -152,7 +152,7 @@ function gameOverScreen(winningSymbol) {
   gameOverText.innerText = text;
 }
 
-function startNewGame() {
+function resetGame() {
   isGameOver = false;
   strike.className = "strike";
   gameOverArea.className = "hidden";
@@ -160,6 +160,10 @@ function startNewGame() {
   tiles.forEach((tile) => (tile.innerText = ""));
   isPlayerTurn = false;
   setHoverText();
+}
+
+function startNewGame() {
+  resetGame();
   requestNewGame();
 }
 
@@ -177,4 +181,5 @@ const winningCombinations = [
   { combo: [2, 4, 6], strikeClass: "strike-diagonal-2" },
 ];
 
-startNewGame();
+resetGame();
+
