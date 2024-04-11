@@ -16,7 +16,7 @@ let playerName = sessionStorage.username;
 let oponnentName = '';
 let gameGuid = '';
 
-var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:8080/game", {
+var connection = new signalR.HubConnectionBuilder().withUrl(`http://${location.hostname}:8080/game`, {
   skipNegotiation: true,
   transport: signalR.HttpTransportType.WebSockets
 }).build();
