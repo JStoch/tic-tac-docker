@@ -62,11 +62,6 @@ resource "aws_instance" "tic_tac_toe" {
     subnet_id = module.game_cloud.public_subnets[0]
     associate_public_ip_address = "true"
     vpc_security_group_ids = [aws_security_group.only_http_ssh_in.id]
-    user_data = <<-EOF
-                #!/bin/bash
-                echo "Hurray!" > index.html
-                nohup busybox httpd -f -p 8080 &
-                EOF
     user_data_replace_on_change = true
     tags = {
         Name = "Tic-Tac-Toe-Game"

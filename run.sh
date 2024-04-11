@@ -2,7 +2,7 @@
 
 # install docker and docker compose
 sudo apt update
-sudo apt install docker docker-compose
+sudo apt install -y docker docker-compose
 
 # create user for docker daemon
 sudo usermod -aG docker $USER
