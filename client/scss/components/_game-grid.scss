@@ -88,12 +88,7 @@
     transform: skewY(-45deg);
   }
    
-  .x-hover:hover::after {
+  .shadow-move:hover::after {
     content: "X";
-    opacity: 0.4;
-  }
-  
-  .o-hover:hover::after {
-    content: "O";
     opacity: 0.4;
   }

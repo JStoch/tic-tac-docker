@@ -1,11 +1,51 @@
+"use strict";
+
 const tiles = document.querySelectorAll(".tile");
 
-//TODO get from backend and change const/let
 const PLAYER_SYMBOL = "X";
 const OPONNENT_SYMBOL = "O";
-let isPlayerTurn = true;
-let playerName = 'Stefan';
-let oponnentName = 'Krystyna';
+const guid = crypto.randomUUID().toString();
+let isPlayerTurn = false;
+let isGameOver = false;
+let playerName = sessionStorage.username;
+let oponnentName = '';
+let gameGuid = '';
+
+var connection = new signalR.HubConnectionBuilder().withUrl("http://localhost:8080/game", {
+  skipNegotiation: true,
+  transport: signalR.HttpTransportType.WebSockets
+}).build();
+
+connection.on("NewGame", function (newGameGuid, opponent, isFirst) {
+  oponnentName = opponent;
+  gameGuid = newGameGuid;
+  isPlayerTurn = isFirst;
+  indicateTurn();
+})
+
+connection.on("Move", function (move) {
+  move = Number(move);
+  makeMove(move, OPONNENT_SYMBOL);
+});
+
+connection.start().then(function() {
+  requestNewGame();
+});
+
+function requestNewGame() {
+  gameGuid = '';
+  oponnentName = '';
+  turnIndicator.innerText =`Waiting for an oponnent...`;
+  connection.invoke("RequestNewGame", guid, playerName);
+}
+
+function sendMove(move) {
+  connection.invoke('Move', gameGuid, guid, move.toString());
+}
+
+function sendEndGame() {
+  connection.invoke('EndGame', gameGuid);
+}
 
 const boardState = Array(tiles.length);
 boardState.fill(null);
@@ -21,21 +61,29 @@ playAgain.addEventListener("click", startNewGame);
 tiles.forEach((tile) => tile.addEventListener("click", tileClick));
 
 function setHoverText() {
-  //remove all hover text
-  const hoverClass = `${PLAYER_SYMBOL.toLowerCase()}-hover`;
   tiles.forEach((tile) => {
     if (tile.innerText == "") {
-      tile.classList.add(hoverClass);
+      tile.classList.add(`shadow-move`);
     }
   });
 }
 
 function removeHoverText(tile) {
-  tile.classList.remove(`${PLAYER_SYMBOL.toLowerCase()}-hover`);
+  tile.classList.remove(`shadow-move`);
+}
+
+function makeMove(tileNumber, symbol) {
+  const tile = tiles[tileNumber];
+  tile.innerText = symbol;
+  boardState[tileNumber] = symbol;
+  removeHoverText(tile);
+  isPlayerTurn = !isPlayerTurn;
+  indicateTurn();
+  checkWinner();
 }
 
 function tileClick(event) {
-  if (gameOverArea.classList.contains("visible")) {
+  if (gameOverArea.classList.contains("visible") || !isPlayerTurn) {
     return;
   }
 
@@ -45,21 +93,11 @@ function tileClick(event) {
     return;
   }
 
-  //TODO remove else - make early return from isPlayerTurn
-  //TODO remove isPlayerTurn change
-  if (isPlayerTurn) {
-    tile.innerText = PLAYER_SYMBOL;
-    boardState[tileNumber] = PLAYER_SYMBOL;
-    isPlayerTurn = false;
-  } else {
-    tile.innerText = OPONNENT_SYMBOL;
-    boardState[tileNumber] = OPONNENT_SYMBOL;
-    isPlayerTurn = true;
+  makeMove(tileNumber, PLAYER_SYMBOL);
+  sendMove(tile.dataset.index);
+  if (isGameOver) {
+    sendEndGame();
   }
-
-  removeHoverText(tile);
-  indicateTurn();
-  checkWinner();
 }
 
 function indicateTurn() {
@@ -109,19 +147,20 @@ function gameOverScreen(winningSymbol) {
   } else {
     text = "It's a draw!"
   }
+  isGameOver = true;
   gameOverArea.className = "visible";
   gameOverText.innerText = text;
 }
 
 function startNewGame() {
+  isGameOver = false;
   strike.className = "strike";
   gameOverArea.className = "hidden";
   boardState.fill(null);
   tiles.forEach((tile) => (tile.innerText = ""));
-  //TODO change
-  isPlayerTurn = true;
-  indicateTurn();
+  isPlayerTurn = false;
   setHoverText();
+  requestNewGame();
 }
 
 const winningCombinations = [

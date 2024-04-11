@@ -1,0 +1,8 @@
+/home/jj-uni/Repos/cloud1/server/bin/Release/net8.0/publish/server
+/home/jj-uni/Repos/cloud1/server/bin/Release/net8.0/publish/appsettings.Development.json
+/home/jj-uni/Repos/cloud1/server/bin/Release/net8.0/publish/appsettings.json
+/home/jj-uni/Repos/cloud1/server/bin/Release/net8.0/publish/libman.json
+/home/jj-uni/Repos/cloud1/server/bin/Release/net8.0/publish/server.dll
+/home/jj-uni/Repos/cloud1/server/bin/Release/net8.0/publish/server.deps.json
+/home/jj-uni/Repos/cloud1/server/bin/Release/net8.0/publish/server.runtimeconfig.json
+/home/jj-uni/Repos/cloud1/server/bin/Release/net8.0/publish/server.pdb
