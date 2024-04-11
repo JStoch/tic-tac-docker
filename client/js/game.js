@@ -1,4 +1,5 @@
 "use strict";
+const crypto = require('crypto');
 
 const tiles = document.querySelectorAll(".tile");
 
