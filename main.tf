@@ -65,6 +65,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
     to_port = 22
 }
 # Instancja EC2, na ktorej zostanie uruchomiona aplikacja
+# Skrypt zawarty w user_data pobiera kod i uruchamia skrypt 
 resource "aws_instance" "tic_tac_toe" {
     ami = "ami-080e1f13689e07408"
     instance_type = "t2.micro"
@@ -72,6 +73,13 @@ resource "aws_instance" "tic_tac_toe" {
     subnet_id = module.game_cloud.public_subnets[0]
     associate_public_ip_address = "true"
     vpc_security_group_ids = [aws_security_group.all_out_chosen_in.id]
+    user_data = <<-EOF
+                #!/bin/bash
+                cd ~
+                git clone https://github.com/JStoch/tic-tac-docker.git
+                cd tic-tac-docker
+                bash ./run.sh
+                EOF
     user_data_replace_on_change = true
     tags = {
         Name = "Tic-Tac-Toe-Game"
