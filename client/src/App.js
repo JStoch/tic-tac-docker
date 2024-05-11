@@ -14,8 +14,8 @@ Amplify.configure({
         oauth: {
           domain: 'tic-tac-docker.auth.us-east-1.amazoncognito.com',
           scopes: ['openid','email','phone'],
-          redirectSignIn: 'http://localhost:3000/',
-          redirectSignOut: 'http://localhost:3000/',
+          redirectSignIn: 'http://localhost:8081/',
+          redirectSignOut: 'http://localhost:8081/',
           responseType: 'code',
         },
         username: 'true',

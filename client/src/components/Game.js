@@ -4,6 +4,7 @@ import NameForm from './NameForm';
 import WaitingAnimation from './WaitingAnimation';
 import './Board.css'
 import Tile from './Tile';
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 const signalR = require("@microsoft/signalr");
 
@@ -91,6 +92,12 @@ const Game = (props) => {
         startGame(isFirst);
      });
 
+    const getAccessJwtToken = async () => {
+        // refresh token authomatically
+        const session = await fetchAuthSession();
+        return session.tokens.accessToken;
+    };
+
     const startGame = (isFirst) => {
         if (isFirst) {
             setGameStatus(GameStatus.YOUR_TURN);
@@ -148,7 +155,6 @@ const Game = (props) => {
         gameGuid = '';
         oponnentName = '';
         connection.invoke("RequestNewGame", guid, playerName);
-
       }      
 
     const handleNameSubmit = () => {
@@ -171,6 +177,7 @@ const Game = (props) => {
             break;
         case GameStatus.WAITING:
             component = <WaitingAnimation />;
+            getAccessJwtToken();
             break;
         case GameStatus.YOUR_TURN:
         case GameStatus.OPPONENT_TURN:
