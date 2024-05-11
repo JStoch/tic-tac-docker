@@ -1,10 +1,23 @@
-FROM busybox:1.35
+# Use an official Node runtime as a parent image
+FROM node:14
 
-RUN adduser -D stud
-USER stud
-WORKDIR /home/stud
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install any needed packages specified in package.json
+RUN npm install
+
+# Bundle app source
 COPY . .
 
-ENTRYPOINT ["busybox"]
-CMD ["httpd", "-f", "-v", "-p", "3000"]
+# Make port 3000 available to the world outside this container
+EXPOSE 3000
+
+# Define environment variable
+ENV NODE_ENV production
+
+# Run app when the container launches
+CMD ["npm", "start"]

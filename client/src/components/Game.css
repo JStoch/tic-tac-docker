@@ -7,10 +7,20 @@
   color: #bc4749;
 }
 
-.dialog-title {
+.game-status {
+  font-weight: bold;  
   color: currentColor;
   font-size: 2em;
-  margin-top: 0px;
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.game {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hidden {
@@ -26,30 +36,6 @@
   font-size: 1.5em;
 }
 
-#board {
-  display: grid;
-  grid-template-columns: 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px;
-  cursor: pointer;
-  position: relative;
-}
-
-.tile {
-  color: #a7c957;
-  font-size: 2em;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.right-border {
-  border-right: 0.2em solid #386641;
-}
-
-.bottom-border {
-  border-bottom: 0.2em solid #386641;
-}
 
 .strike {
   position: absolute;
@@ -126,10 +112,8 @@
 body {
   display: flex;
   flex-direction: column;
-  align-items: center;
   background-color: #eee8db;
   color: #6a994e;
   font-family: "Times New Roman", Times, serif;
 }
 
-/*# sourceMappingURL=main.css.map */
