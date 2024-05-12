@@ -74,7 +74,7 @@ const Game = (props) => {
         );
       }
 
-    const ip = '192.168.1.16'; // Replace with the actual IP address from the configuration file
+    const ip = 'localhost'; // Replace with the actual IP address from the configuration file
     const port = 8080; // Replace with the actual port from the configuration file
 
     var connection = new signalR.HubConnectionBuilder().withUrl(`http://${ip}:${port}/game`, {
