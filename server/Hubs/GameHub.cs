@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.SignalR;
 using server.Services;
 using server.Models;
-//TODO end game
+using Microsoft.AspNetCore.Authorization;
+
 namespace server.Hubs
 {
+    [Authorize]
     public class GameHub(GameService gameDataContext) : Hub
     {
         private readonly GameService gameData = gameDataContext;

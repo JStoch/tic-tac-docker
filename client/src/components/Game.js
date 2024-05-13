@@ -77,9 +77,27 @@ const Game = (props) => {
     const ip = 'localhost'; // Replace with the actual IP address from the configuration file
     const port = 8080; // Replace with the actual port from the configuration file
 
+    const storeJwtToken = async () => {
+        // refresh token authomatically
+        const session = await fetchAuthSession();
+        const token = session.tokens.accessToken;
+        console.log(`store token: ${token}`)
+        localStorage.setItem('access_token', token);
+        return token;
+    };
+
+    const getJwtToken = () => {
+        const token = localStorage.getItem('access_token');
+        console.log(`get token: ${token}`)
+        return token;
+    }
+
     var connection = new signalR.HubConnectionBuilder().withUrl(`http://${ip}:${port}/game`, {
         skipNegotiation: true,
-        transport: signalR.HttpTransportType.WebSockets
+        transport: signalR.HttpTransportType.WebSockets,
+        headers: {
+            Authorization: `Bearer ${getJwtToken()}`
+        }
     }).build();
 
     let guid = uuidv4().toString();
@@ -91,12 +109,6 @@ const Game = (props) => {
         gameGuid = newGameGuid;
         startGame(isFirst);
      });
-
-    const getAccessJwtToken = async () => {
-        // refresh token authomatically
-        const session = await fetchAuthSession();
-        return session.tokens.accessToken;
-    };
 
     const startGame = (isFirst) => {
         if (isFirst) {
@@ -157,9 +169,10 @@ const Game = (props) => {
         connection.invoke("RequestNewGame", guid, playerName);
       }      
 
-    const handleNameSubmit = () => {
+    const handleNameSubmit = async () => {
         // Send the name to the game server, change game state
         setGameStatus(GameStatus.WAITING);
+        await storeJwtToken();
         connection.start().then(() => {
             requestNewGame(props.user?.username);
         });
@@ -177,7 +190,6 @@ const Game = (props) => {
             break;
         case GameStatus.WAITING:
             component = <WaitingAnimation />;
-            getAccessJwtToken();
             break;
         case GameStatus.YOUR_TURN:
         case GameStatus.OPPONENT_TURN:
