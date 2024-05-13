@@ -80,7 +80,7 @@ const Game = (props) => {
     const storeJwtToken = async () => {
         // refresh token authomatically
         const session = await fetchAuthSession();
-        const token = session.tokens.accessToken;
+        const token = session.tokens.idToken;
         console.log(`store token: ${token}`)
         localStorage.setItem('access_token', token);
         return token;
@@ -97,7 +97,8 @@ const Game = (props) => {
         transport: signalR.HttpTransportType.WebSockets,
         headers: {
             Authorization: `Bearer ${getJwtToken()}`
-        }
+        },
+        accessTokenFactory: () => getJwtToken()
     }).build();
 
     let guid = uuidv4().toString();
